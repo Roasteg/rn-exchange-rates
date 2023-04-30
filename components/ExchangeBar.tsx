@@ -1,13 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Colors } from "../utils/Colors";
-import {Ionicons} from "@expo/vector-icons";
-import Dropdown from "./ui/CountryDropdown";
+import { Ionicons } from "@expo/vector-icons";
+import Dropdown from "./ui/Dropdown";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import DropdownCountryItem from "./DropdownCountryItem";
 export default function ExchangeBar() {
+    const currencies = useSelector((state: RootState) => state.currencies);
+
     return (
         <View style={[styles.rootContainer, styles.barShadow]}>
-            <Dropdown />
+            <Dropdown list={currencies} itemPresentation={DropdownCountryItem}/>
             <Ionicons name="swap-horizontal" size={24} color="black" />
-            <Dropdown />
+            <Dropdown list={currencies} itemPresentation={DropdownCountryItem} />
         </View>
     );
 }
@@ -20,7 +25,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         padding: 10,
         height: 70,
-        alignItems: "center"
+        alignItems: "center",
     },
     barShadow: {
         shadowColor: "black",
