@@ -7,10 +7,6 @@ import { useDispatch } from "react-redux";
 import { getCurrencyList } from "../store/slices/currencies";
 import { useEffect } from "react";
 export default function HomeScreen() {
-    const dispatch: AppDispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getCurrencyList());
-    }, []);
     return (
         <View style={styles.rootContainer}>
             <View style={styles.currencySelectionContainer}>

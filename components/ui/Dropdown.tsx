@@ -1,29 +1,26 @@
 import { useState } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    Pressable,
-    FlatList,
-    Modal,
-} from "react-native";
+import { StyleSheet, View, Pressable, FlatList, Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useComponentPosition } from "../../utils/Hooks";
 
 type Props = {
     list: any[];
-    itemPresentation: React.FC<{item: any}>;
+    value: string | number | object;
+    propertyValue?: string;
+    itemPresentation?: any;
+    onItemPress: (pressedItem: string | number | object) => void;
 };
 
 export default function Dropdown(props: Props) {
     const [dropDownVisible, setDropdownVisible] = useState<boolean>(false);
-    const [dropdownButtonPositionX, setDropdownPositionX] = useState<number>(0);
-    const [dropdownButtonPositionY, setDropdownPositionY] = useState<number>(0);
+
+    const { position, onLayout } = useComponentPosition();
 
     const chevron = dropDownVisible ? "chevron-up" : "chevron-down";
 
     const makeListItem = (item: object) => {
-        return <props.itemPresentation item={item} />
-    }
+        return <props.itemPresentation item={item} onPress={() => {}} />;
+    };
 
     return (
         <>
@@ -32,13 +29,9 @@ export default function Dropdown(props: Props) {
                 onPress={() => {
                     setDropdownVisible(!dropDownVisible);
                 }}
-                onLayout={(event) => {
-                    const layout = event.nativeEvent.layout;
-                    setDropdownPositionX(layout.x);
-                    setDropdownPositionY(layout.y);
-                }}
+                onLayout={onLayout}
             >
-                <Text>Dropdown</Text>
+                <props.itemPresentation item={props.value} />
                 <Ionicons name={chevron} size={18} />
             </Pressable>
             <Modal visible={dropDownVisible} transparent>
@@ -50,18 +43,27 @@ export default function Dropdown(props: Props) {
                         style={[
                             styles.dropdown,
                             {
-                                top: dropdownButtonPositionY + 100,
-                                left: dropdownButtonPositionX + 10,
+                                top: position ? position.y + 100 : 0,
+                                left: position ? position.x : 0,
                             },
                         ]}
                     >
                         <View style={styles.dropdownListContainer}>
                             <FlatList
                                 data={props.list}
-                                keyExtractor={(item) => item["Code"]}
+                                keyExtractor={(item, index) => index.toString()}
+                                showsVerticalScrollIndicator={false}
                                 renderItem={({ item }) => {
                                     return (
-                                        makeListItem(item)
+                                        <Pressable
+                                            style={styles.dropdownListItem}
+                                            onPress={() => {
+                                                props.onItemPress(item);
+                                                setDropdownVisible(false);
+                                            }}
+                                        >
+                                            {makeListItem(item)}
+                                        </Pressable>
                                     );
                                 }}
                             />
@@ -75,6 +77,7 @@ export default function Dropdown(props: Props) {
 const styles = StyleSheet.create({
     rootContainer: {
         padding: 10,
+        flex: 1,
         flexDirection: "row",
         alignItems: "center",
     },
@@ -93,5 +96,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         height: 220,
         width: 140,
+    },
+    dropdownListItem: {
+        padding: 10,
     },
 });

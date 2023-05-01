@@ -1,18 +1,70 @@
-import { StyleSheet, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 import { Colors } from "../utils/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import Dropdown from "./ui/Dropdown";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
-import DropdownCountryItem from "./DropdownCountryItem";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import DropdownCurrencyItem from "./DropdownCurrencyItem";
+import { useEffect, useState } from "react";
+import { getCurrencyList } from "../store/slices/currencies";
 export default function ExchangeBar() {
+    const dispatch: AppDispatch = useDispatch();
+
     const currencies = useSelector((state: RootState) => state.currencies);
 
+    const [currencyFrom, setCurrencyFrom] = useState<object>({});
+    const [currencyTo, setCurrencyTo] = useState<object>({});
+
+    const swapCurrencies = () => {
+        const tempCurrencyFrom = currencyFrom;
+        setCurrencyFrom(currencyTo);
+        setCurrencyTo(tempCurrencyFrom);
+    };
+
+    useEffect(() => {
+        dispatch(getCurrencyList());
+    }, []);
+
+    if (currencies.length === 0) {
+        return <ActivityIndicator />;
+    }
+
     return (
-        <View style={[styles.rootContainer, styles.barShadow]}>
-            <Dropdown list={currencies} itemPresentation={DropdownCountryItem}/>
-            <Ionicons name="swap-horizontal" size={24} color="black" />
-            <Dropdown list={currencies} itemPresentation={DropdownCountryItem} />
+        <View
+            style={[styles.rootContainer, styles.barShadow]}
+            onLayout={() => {
+                setCurrencyFrom(
+                    currencies.filter((currency) => currency.Code === "EUR")[0]
+                );
+                setCurrencyTo(
+                    currencies.filter((currency) => currency.Code === "USD")[0]
+                );
+            }}
+        >
+            <Dropdown
+                list={currencies}
+                value={currencyFrom ?? {}}
+                propertyValue="Code"
+                onItemPress={(pressedItem) => {
+                    setCurrencyFrom(pressedItem as object);
+                }}
+                itemPresentation={DropdownCurrencyItem}
+            />
+            <Pressable
+                style={styles.swapButtonContainer}
+                onPress={swapCurrencies}
+            >
+                <Ionicons name="swap-horizontal" size={24} color="black" />
+            </Pressable>
+            <Dropdown
+                list={currencies}
+                value={currencyTo ?? {}}
+                propertyValue="Code"
+                onItemPress={(pressedItem) => {
+                    setCurrencyTo(pressedItem as object);
+                }}
+                itemPresentation={DropdownCurrencyItem}
+            />
         </View>
     );
 }
@@ -32,5 +84,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 5,
         shadowOffset: { height: 3, width: 0 },
+    },
+    swapButtonContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
