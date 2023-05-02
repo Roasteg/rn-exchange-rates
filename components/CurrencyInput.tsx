@@ -72,11 +72,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     currencyContainer: {
-        width: 22,
+        width: 18,
     },
     currencySymbol: {
         fontSize: 18,
-        alignSelf: "stretch",
         color: Colors.inactive,
     },
     inputContainer: {
