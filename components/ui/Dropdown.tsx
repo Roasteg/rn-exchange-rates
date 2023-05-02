@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { StyleSheet, View, Pressable, FlatList, Modal } from "react-native";
+import {
+    StyleSheet,
+    View,
+    Pressable,
+    FlatList,
+    Modal,
+    Text,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useComponentPosition } from "../../utils/Hooks";
 
@@ -8,19 +15,15 @@ type Props = {
     value: string | number | object;
     propertyValue?: string;
     itemPresentation?: any;
-    onItemPress: (pressedItem: string | number | object) => void;
+    onItemPress: (selectedItem: string | number | object) => void;
 };
 
 export default function Dropdown(props: Props) {
     const [dropDownVisible, setDropdownVisible] = useState<boolean>(false);
 
-    const { position, onLayout } = useComponentPosition();
+    const { dimensions, onLayout } = useComponentPosition();
 
     const chevron = dropDownVisible ? "chevron-up" : "chevron-down";
-
-    const makeListItem = (item: object) => {
-        return <props.itemPresentation item={item} onPress={() => {}} />;
-    };
 
     return (
         <>
@@ -31,7 +34,11 @@ export default function Dropdown(props: Props) {
                 }}
                 onLayout={onLayout}
             >
-                <props.itemPresentation item={props.value} />
+                {props.itemPresentation ? (
+                    <props.itemPresentation item={props.value} />
+                ) : (
+                    <Text>{props.value.toString()}</Text>
+                )}
                 <Ionicons name={chevron} size={18} />
             </Pressable>
             <Modal visible={dropDownVisible} transparent>
@@ -43,8 +50,8 @@ export default function Dropdown(props: Props) {
                         style={[
                             styles.dropdown,
                             {
-                                top: position ? position.y + 100 : 0,
-                                left: position ? position.x : 0,
+                                top: dimensions ? dimensions.y + 100 : 0,
+                                left: dimensions ? dimensions.x : 0,
                             },
                         ]}
                     >
@@ -62,7 +69,13 @@ export default function Dropdown(props: Props) {
                                                 setDropdownVisible(false);
                                             }}
                                         >
-                                            {makeListItem(item)}
+                                            {props.itemPresentation ? (
+                                                <props.itemPresentation
+                                                    item={item}
+                                                />
+                                            ) : (
+                                                <Text>{item}</Text>
+                                            )}
                                         </Pressable>
                                     );
                                 }}

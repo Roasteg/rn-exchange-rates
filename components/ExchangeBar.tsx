@@ -45,8 +45,8 @@ export default function ExchangeBar() {
                 list={currencies}
                 value={currencyFrom ?? {}}
                 propertyValue="Code"
-                onItemPress={(pressedItem) => {
-                    setCurrencyFrom(pressedItem as object);
+                onItemPress={(selectedItem) => {
+                    setCurrencyFrom(selectedItem as object);
                 }}
                 itemPresentation={DropdownCurrencyItem}
             />
@@ -60,8 +60,8 @@ export default function ExchangeBar() {
                 list={currencies}
                 value={currencyTo ?? {}}
                 propertyValue="Code"
-                onItemPress={(pressedItem) => {
-                    setCurrencyTo(pressedItem as object);
+                onItemPress={(selectedItem) => {
+                    setCurrencyTo(selectedItem as object);
                 }}
                 itemPresentation={DropdownCurrencyItem}
             />

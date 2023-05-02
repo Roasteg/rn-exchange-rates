@@ -1,15 +1,15 @@
 import { useCallback, useState } from "react";
 import { LayoutChangeEvent } from "react-native";
 
-const useComponentPosition = () => {
-    const [position, setPosition] = useState<null | {x: number; y: number;}>(null);
+const useComponentDimensions = () => {
+    const [dimensions, setDimensions] = useState<null | {x: number; y: number; width: number; height: number}>(null);
 
     const onLayout = useCallback((event: LayoutChangeEvent) => {
-        const {x, y} = event.nativeEvent.layout;
-        setPosition({x, y});
+        const {x, y, width, height} = event.nativeEvent.layout;
+        setDimensions({x, y, width, height});
     }, [])
 
-    return {position, onLayout};
+    return {dimensions, onLayout};
 }
 
-export {useComponentPosition};
+export {useComponentDimensions as useComponentPosition};
