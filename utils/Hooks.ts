@@ -1,5 +1,9 @@
 import { useCallback, useState } from "react";
-import { LayoutChangeEvent, Dimensions } from "react-native";
+import {
+    LayoutChangeEvent,
+    Dimensions,
+    GestureResponderEvent,
+} from "react-native";
 
 const useComponentDimensions = () => {
     const [dimensions, setDimensions] = useState<null | {
@@ -17,4 +21,30 @@ const useComponentDimensions = () => {
     return { dimensions, onLayout };
 };
 
-export { useComponentDimensions };
+const useSwipe = (
+    onSwipeLeft?: () => void | null,
+    onSwipeRight?: () => void | null,
+    rangeOffset?: number
+) => {
+    const clientWidth = Dimensions.get("window").width;
+
+    let firstTouch = 0;
+
+    const onTouchStart = (event: GestureResponderEvent) => {
+        firstTouch = event.nativeEvent.pageX;
+    };
+
+    const onTouchEnd = (event: GestureResponderEvent) => {
+        const positionX = event.nativeEvent.pageX;
+        const range = clientWidth / (rangeOffset ?? 4);
+        if (positionX - firstTouch > range) {
+            onSwipeRight && onSwipeRight();
+        } else if (firstTouch - positionX > range) {
+            onSwipeLeft && onSwipeLeft();
+        }
+    };
+
+    return { onTouchStart, onTouchEnd };
+};
+
+export { useComponentDimensions, useSwipe };

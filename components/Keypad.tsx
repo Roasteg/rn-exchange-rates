@@ -1,19 +1,34 @@
 import { StyleSheet, Text, View } from "react-native";
 import ActionButton from "./ui/ActionButton";
 import React from "react";
+import { AppDispatch } from "../store/store";
+import { useDispatch } from "react-redux";
+import { setInputValue } from "../store/slices/exchange";
 
 export default function Keypad() {
-    const keys = ['9', '8', '7', '6', '5', '4', '3', '2', '1', 'C', ',', '0']
+    const dispatch: AppDispatch = useDispatch();
+
+    const keys = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "C", ",", "0"];
+
+    const handlePress = (value: string) => {
+        dispatch(setInputValue(value));
+    };
+
     return (
         <View style={styles.rootContainer}>
             <View style={styles.keypadContainer}>
-                <View style={styles.keysContainer}>{keys.map((key) => {
-                    return (
-                        <View key={key} style={styles.keyContainer}>
-                            <ActionButton label={key} onPress={()=>{}} />
-                        </View>
-                    )
-                })}</View>
+                <View style={styles.keysContainer}>
+                    {keys.map((key) => {
+                        return (
+                            <View key={key} style={styles.keyContainer}>
+                                <ActionButton
+                                    label={key}
+                                    onPress={() => handlePress(key)}
+                                />
+                            </View>
+                        );
+                    })}
+                </View>
             </View>
         </View>
     );

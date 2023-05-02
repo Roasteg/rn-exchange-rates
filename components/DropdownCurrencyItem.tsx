@@ -7,7 +7,12 @@ export default function DropdownCurrencyItem(props: Props) {
     return (
         <View style={styles.rootContainer}>
             <View style={styles.flagContainer}>
-                <Image source={{ uri: props.item.Flag }} style={styles.flag} />
+                {props.item.Flag !== "" && (
+                    <Image
+                        source={{ uri: props.item.Flag }}
+                        style={styles.flag}
+                    />
+                )}
             </View>
             <Text>{props.item.Code}</Text>
         </View>

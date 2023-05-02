@@ -6,47 +6,52 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import DropdownCurrencyItem from "./DropdownCurrencyItem";
 import { useEffect, useState } from "react";
-import { getCurrencyList } from "../store/slices/currencies";
+import {
+    getCurrencyList,
+    setSelectedFrom,
+    setSelectedTo,
+} from "../store/slices/currencies";
 export default function ExchangeBar() {
     const dispatch: AppDispatch = useDispatch();
 
     const currencies = useSelector((state: RootState) => state.currencies);
 
-    const [currencyFrom, setCurrencyFrom] = useState<object>({});
-    const [currencyTo, setCurrencyTo] = useState<object>({});
-
     const swapCurrencies = () => {
-        const tempCurrencyFrom = currencyFrom;
-        setCurrencyFrom(currencyTo);
-        setCurrencyTo(tempCurrencyFrom);
+        const tempCurrencyFrom = currencies.selectedCurrencyFrom;
+        dispatch(setSelectedFrom(currencies.selectedCurrencyTo));
+        dispatch(setSelectedTo(tempCurrencyFrom));
     };
 
     useEffect(() => {
         dispatch(getCurrencyList());
     }, []);
 
-    if (currencies.length === 0) {
-        return <ActivityIndicator />;
-    }
-
     return (
         <View
             style={[styles.rootContainer, styles.barShadow]}
             onLayout={() => {
-                setCurrencyFrom(
-                    currencies.filter((currency) => currency.Code === "EUR")[0]
+                dispatch(
+                    setSelectedFrom(
+                        currencies.list.filter(
+                            (currency) => currency.Code === "EUR"
+                        )[0]
+                    )
                 );
-                setCurrencyTo(
-                    currencies.filter((currency) => currency.Code === "USD")[0]
+                dispatch(
+                    setSelectedTo(
+                        currencies.list.filter(
+                            (currency) => currency.Code === "USD"
+                        )[0]
+                    )
                 );
             }}
         >
             <Dropdown
-                list={currencies}
-                value={currencyFrom ?? {}}
+                list={currencies.list}
+                value={currencies.selectedCurrencyFrom ?? {}}
                 propertyValue="Code"
                 onItemPress={(selectedItem) => {
-                    setCurrencyFrom(selectedItem as object);
+                    dispatch(setSelectedFrom(selectedItem as Currency));
                 }}
                 width={140}
                 itemPresentation={DropdownCurrencyItem}
@@ -58,12 +63,12 @@ export default function ExchangeBar() {
                 <Ionicons name="swap-horizontal" size={24} color="black" />
             </Pressable>
             <Dropdown
-                list={currencies}
-                value={currencyTo ?? {}}
+                list={currencies.list}
+                value={currencies.selectedCurrencyTo ?? {}}
                 width={140}
                 propertyValue="Code"
                 onItemPress={(selectedItem) => {
-                    setCurrencyTo(selectedItem as object);
+                    dispatch(setSelectedTo(selectedItem as Currency));
                 }}
                 itemPresentation={DropdownCurrencyItem}
             />

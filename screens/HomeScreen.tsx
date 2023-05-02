@@ -2,10 +2,7 @@ import { StyleSheet, Text, SafeAreaView, View } from "react-native";
 import Keypad from "../components/Keypad";
 import ExchangeBar from "../components/ExchangeBar";
 import { Colors } from "../utils/Colors";
-import { AppDispatch } from "../store/store";
-import { useDispatch } from "react-redux";
-import { getCurrencyList } from "../store/slices/currencies";
-import { useEffect } from "react";
+import CurrencyInput from "../components/CurrencyInput";
 export default function HomeScreen() {
     return (
         <View style={styles.rootContainer}>
@@ -13,10 +10,10 @@ export default function HomeScreen() {
                 <ExchangeBar />
             </View>
             <View style={styles.currencyInputContainer}>
-                <Text>Type</Text>
+                <CurrencyInput />
             </View>
             <View style={styles.keypadContainer}>
-                <Keypad />
+                <Keypad /> 
             </View>
         </View>
     );
@@ -37,9 +34,10 @@ const styles = StyleSheet.create({
     currencyInputContainer: {
         zIndex: 1,
         flex: 2,
+        paddingHorizontal: 24,
     },
     keypadContainer: {
-        marginBottom: 48,
+        marginBottom: 72,
         flex: 3,
     },
 });

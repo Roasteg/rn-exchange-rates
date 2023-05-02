@@ -9,7 +9,7 @@ type Props = {
 
 export default function ActionButton(props: Props) {
     return (
-        <Pressable style={styles.rootContainer}>
+        <Pressable style={styles.rootContainer} onPress={props.onPress}>
             <View style={styles.labelContainer}>
                 <Text style={styles.label}>{props.label}</Text>
             </View>

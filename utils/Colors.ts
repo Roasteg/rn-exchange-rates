@@ -4,5 +4,7 @@ export const Colors = {
     exchangeBarDefault: "#ffffff",
     exchangeBarDark: "#1f1f23",
     actionButtonLight: "#f0f0f0",
-    actionButtonDark: "#222126"
+    actionButtonDark: "#222126",
+    active: "#1129f5",
+    inactive: "#bdbcbf"
 }
