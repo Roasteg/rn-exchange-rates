@@ -6,13 +6,15 @@ import {
     FlatList,
     Modal,
     Text,
+    Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useComponentPosition } from "../../utils/Hooks";
+import { useComponentDimensions } from "../../utils/Hooks";
 
 type Props = {
     list: any[];
     value: string | number | object;
+    width?: number;
     propertyValue?: string;
     itemPresentation?: any;
     onItemPress: (selectedItem: string | number | object) => void;
@@ -20,8 +22,23 @@ type Props = {
 
 export default function Dropdown(props: Props) {
     const [dropDownVisible, setDropdownVisible] = useState<boolean>(false);
+    const [dropdownOverflow, setDropdownOverflow] = useState<number>(0);
 
-    const { dimensions, onLayout } = useComponentPosition();
+    const { dimensions, onLayout } = useComponentDimensions();
+
+    const dropdownPosition = (): number => {
+        if(props.width && dimensions) {
+            return dropdownOverflow < 0 ? dimensions.x + dropdownOverflow : dimensions.x;
+        }
+        return 0;
+    }
+
+    const calculateOverflow = () => {
+        const clientWidth = Dimensions.get("window").width;
+        if(dimensions) {
+            setDropdownOverflow(clientWidth - dimensions.x - (props.width ?? clientWidth));
+        }
+    }
 
     const chevron = dropDownVisible ? "chevron-up" : "chevron-down";
 
@@ -47,11 +64,13 @@ export default function Dropdown(props: Props) {
                     style={{ width: "100%", height: "100%" }}
                 >
                     <View
+                    onLayout={calculateOverflow}
                         style={[
                             styles.dropdown,
                             {
+                                width: props.width ?? "100%",
                                 top: dimensions ? dimensions.y + 100 : 0,
-                                left: dimensions ? dimensions.x : 0,
+                                left: dropdownPosition(),
                             },
                         ]}
                     >
@@ -108,7 +127,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 20,
         height: 220,
-        width: 140,
     },
     dropdownListItem: {
         padding: 10,
