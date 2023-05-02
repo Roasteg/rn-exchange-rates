@@ -60,7 +60,7 @@ export default function ExchangeBar() {
             <Dropdown
                 list={currencies}
                 value={currencyTo ?? {}}
-                width={190}
+                width={140}
                 propertyValue="Code"
                 onItemPress={(selectedItem) => {
                     setCurrencyTo(selectedItem as object);

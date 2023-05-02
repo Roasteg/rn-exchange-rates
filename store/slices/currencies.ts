@@ -14,6 +14,15 @@ const getStoredCurrencies = async () => {
     }
 }
 
+const storeCurrencies = async (value: object) => {
+    try {
+        const json = JSON.stringify(value);
+        await AsyncStorage.setItem("@currencies", json);
+    } catch (error) {
+        return error;
+    }
+}
+
 const getCurrencyList = createAsyncThunk(
     "currenies/get",
     async (_, { rejectWithValue }) => {
@@ -23,11 +32,13 @@ const getCurrencyList = createAsyncThunk(
         if(storedValues) {
             return storedValues;
         }
-        
 
         const currencyList = await axios.get<Currency[]>(
             "https://gist.githubusercontent.com/manishtiwari25/d3984385b1cb200b98bcde6902671599/raw/917fd09bb377d4de742804049758585e0409e013/world_currency_symbols.json"
         );
+
+        await storeCurrencies(currencyList.data);
+
         return currencyList.data;
     }
 );
