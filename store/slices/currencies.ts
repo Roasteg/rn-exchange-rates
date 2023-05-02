@@ -34,7 +34,7 @@ const storeCurrencies = async (value: object) => {
 
 const getCurrencyList = createAsyncThunk(
     "currenies/get",
-    async (_, { rejectWithValue }) => {
+    async () => {
         const storedValues = await getStoredCurrencies();
 
         if (storedValues) {

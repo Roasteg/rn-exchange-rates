@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 type Exchange = {
-    selectedInput: "from" | "to",
+    selectedInput: "from" | "to";
     from: string[];
     to: string[];
 };
@@ -9,14 +9,18 @@ type Exchange = {
 const initialState: Exchange = {
     selectedInput: "from",
     from: [],
-    to: []
-}
+    to: [],
+};
+
+const getExchangeRates = createAsyncThunk("exchange/get", async () => {
+    
+});
 
 const exchangeSlice = createSlice({
     name: "exchange",
     initialState,
     reducers: {
-        selectInput(state, action: PayloadAction<"from" | "to">){
+        selectInput(state, action: PayloadAction<"from" | "to">) {
             state.selectedInput = action.payload;
         },
         setInputValue(state, action: PayloadAction<string>) {
