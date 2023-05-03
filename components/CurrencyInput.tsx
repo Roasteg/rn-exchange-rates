@@ -1,10 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
 import Input from "./ui/Input";
-import { useMemo, useState } from "react";
+import { useEffect } from "react";
 import { Colors } from "../utils/Colors";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import { removeLastValue, selectInput } from "../store/slices/exchange";
+import {
+    calculateRate,
+    getExchangeRates,
+    removeLastValue,
+    selectInput,
+    setCurrentRate,
+} from "../store/slices/exchange";
 export default function CurrencyInput() {
     const exchange = useSelector((state: RootState) => state.exchange);
     const currency = useSelector((state: RootState) => state.currencies);
@@ -12,7 +18,31 @@ export default function CurrencyInput() {
 
     const handleSwipeLeft = () => {
         dispatch(removeLastValue());
+        dispatch(calculateRate());
     };
+
+    const calculateTo = () => {
+        const value = exchange.currentRate;
+
+        if (isNaN(value)) {
+            return "unknown";
+        }
+        return (1 / value).toFixed(2);
+    };
+
+    useEffect(() => {
+        dispatch(
+            getExchangeRates({ base: currency.selectedCurrencyFrom.Code })
+        );
+    }, [currency.selectedCurrencyFrom]);
+
+    useEffect(() => {
+        dispatch(
+            setCurrentRate(
+                exchange.rates.rates[currency.selectedCurrencyTo.Code]
+            )
+        );
+    }, [exchange.rates.rates]);
 
     return (
         <View style={styles.rootContainer}>
@@ -25,7 +55,10 @@ export default function CurrencyInput() {
                 <View style={styles.inputContainer}>
                     <Input
                         value={exchange.from.join("")}
-                        onPress={() => dispatch(selectInput("from"))}
+                        onPress={() =>
+                            exchange.selectedInput !== "from" &&
+                            dispatch(selectInput("from"))
+                        }
                         onSwipeLeft={handleSwipeLeft}
                         style={
                             exchange.selectedInput === "from"
@@ -33,6 +66,13 @@ export default function CurrencyInput() {
                                 : styles.inputInactive
                         }
                     />
+                    <Text style={styles.subtitle}>
+                        {`1 ${currency.selectedCurrencyFrom.Code} = ${
+                            exchange.rates.rates[
+                                currency.selectedCurrencyTo.Code
+                            ] ?? "unknown"
+                        } ${currency.selectedCurrencyTo.Code}`}
+                    </Text>
                 </View>
             </View>
             <View style={styles.inputAndSymbolContainer}>
@@ -44,7 +84,10 @@ export default function CurrencyInput() {
                 <View style={styles.inputContainer}>
                     <Input
                         value={exchange.to.join("")}
-                        onPress={() => dispatch(selectInput("to"))}
+                        onPress={() =>
+                            exchange.selectedInput !== "to" &&
+                            dispatch(selectInput("to"))
+                        }
                         onSwipeLeft={handleSwipeLeft}
                         style={
                             exchange.selectedInput === "to"
@@ -52,6 +95,13 @@ export default function CurrencyInput() {
                                 : styles.inputInactive
                         }
                     />
+                    <Text style={styles.subtitle}>
+                        {`1 ${
+                            currency.selectedCurrencyTo.Code
+                        } = ${calculateTo()} ${
+                            currency.selectedCurrencyFrom.Code
+                        }`}
+                    </Text>
                 </View>
             </View>
         </View>
@@ -68,6 +118,9 @@ const styles = StyleSheet.create({
     inputInactive: {
         borderBottomColor: Colors.inactive,
     },
+    outerContainer: {
+        flexDirection: "column",
+    },
     inputAndSymbolContainer: {
         flexDirection: "row",
     },
@@ -76,6 +129,10 @@ const styles = StyleSheet.create({
     },
     currencySymbol: {
         fontSize: 18,
+        color: Colors.inactive,
+    },
+    subtitle: {
+        marginTop: 12,
         color: Colors.inactive,
     },
     inputContainer: {

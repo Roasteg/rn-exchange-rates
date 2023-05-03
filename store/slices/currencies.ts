@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { RootState } from "../store";
 
 type Currencies = {
     list: Currency[];
@@ -34,19 +35,19 @@ const storeCurrencies = async (value: object) => {
 
 const getCurrencyList = createAsyncThunk(
     "currenies/get",
-    async () => {
+    async (_, {}) => {
         const storedValues = await getStoredCurrencies();
 
         if (storedValues) {
             return storedValues;
         }
 
-        const currencyList = await axios.get<Currency[]>(
+        const currencyList = await axios.get(
             "https://gist.githubusercontent.com/manishtiwari25/d3984385b1cb200b98bcde6902671599/raw/917fd09bb377d4de742804049758585e0409e013/world_currency_symbols.json"
         );
 
         await storeCurrencies(currencyList.data);
-
+        
         return currencyList.data;
     }
 );

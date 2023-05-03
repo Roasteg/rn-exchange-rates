@@ -1,5 +1,4 @@
 import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
-import { Colors } from "../../utils/Colors";
 import { useSwipe } from "../../utils/Hooks";
 
 type Props = {

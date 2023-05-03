@@ -5,12 +5,13 @@ import Dropdown from "./ui/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import DropdownCurrencyItem from "./DropdownCurrencyItem";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
     getCurrencyList,
     setSelectedFrom,
     setSelectedTo,
 } from "../store/slices/currencies";
+import { calculateRate, setCurrentRate } from "../store/slices/exchange";
 export default function ExchangeBar() {
     const dispatch: AppDispatch = useDispatch();
 
@@ -20,6 +21,7 @@ export default function ExchangeBar() {
         const tempCurrencyFrom = currencies.selectedCurrencyFrom;
         dispatch(setSelectedFrom(currencies.selectedCurrencyTo));
         dispatch(setSelectedTo(tempCurrencyFrom));
+        dispatch(calculateRate());
     };
 
     useEffect(() => {
