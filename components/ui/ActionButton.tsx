@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import { Appearance } from "react-native";
-import { Colors } from "../../utils/Colors";
+import { Theme } from "../../utils/Colors";
+
 
 type Props = {
     label: string;
@@ -18,7 +18,7 @@ export default function ActionButton(props: Props) {
 }
 const styles = StyleSheet.create({
     rootContainer: {
-        backgroundColor: Appearance.getColorScheme() === "light" ? Colors.actionButtonLight : Colors.actionButtonDark,
+        backgroundColor: Theme.actionButton,
         paddingHorizontal: 14,
         paddingVertical: 20,
         borderRadius: 40,
@@ -30,5 +30,6 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 28,
         fontWeight: "bold",
-    }
+        color: Theme.text,
+    },
 });

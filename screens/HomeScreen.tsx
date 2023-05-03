@@ -1,8 +1,9 @@
 import { StyleSheet, View } from "react-native";
 import Keypad from "../components/Keypad";
 import ExchangeBar from "../components/ExchangeBar";
-import { Colors } from "../utils/Colors";
+import { Theme } from "../utils/Colors";
 import CurrencyInput from "../components/CurrencyInput";
+
 export default function HomeScreen() {
     return (
         <View style={styles.rootContainer}>
@@ -21,7 +22,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        backgroundColor: Colors.backgroundDefault,
+        backgroundColor: Theme.background,
         zIndex: 1,
         position: "relative",
     },

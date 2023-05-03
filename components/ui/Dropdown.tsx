@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useComponentDimensions } from "../../utils/Hooks";
+import { Theme } from "../../utils/Colors";
 
 type Props = {
     list: any[];
@@ -56,7 +57,7 @@ export default function Dropdown(props: Props) {
                 ) : (
                     <Text>{props.value.toString()}</Text>
                 )}
-                <Ionicons name={chevron} size={18} />
+                <Ionicons name={chevron} size={18} color={Theme.text}/>
             </Pressable>
             <Modal visible={dropDownVisible} transparent>
                 <Pressable
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     dropdownListContainer: {
-        backgroundColor: "white",
+        backgroundColor: Theme.exchangeBar,
         shadowColor: "black",
         shadowRadius: 4,
         shadowOpacity: 0.1,

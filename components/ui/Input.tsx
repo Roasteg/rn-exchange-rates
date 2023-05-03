@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
 import { useSwipe } from "../../utils/Hooks";
+import { Theme } from "../../utils/Colors";
 
 type Props = {
     value: string;
@@ -41,5 +42,6 @@ const styles = StyleSheet.create({
     inputText: {
         fontSize: 48,
         fontWeight: "bold",
+        color: Theme.text
     },
 });

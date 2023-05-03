@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { Colors } from "../utils/Colors";
+import { Theme } from "../utils/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import Dropdown from "./ui/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,19 +59,19 @@ export default function ExchangeBar() {
                 onItemPress={(selectedItem) => {
                     dispatch(setSelectedFrom(selectedItem as Currency));
                 }}
-                width={140}
+                width={160}
                 itemPresentation={DropdownCurrencyItem}
             />
             <Pressable
                 style={styles.swapButtonContainer}
                 onPress={swapCurrencies}
             >
-                <Ionicons name="swap-horizontal" size={24} color="black" />
+                <Ionicons name="swap-horizontal" size={24} color={Theme.text} />
             </Pressable>
             <Dropdown
                 list={currencies.list}
                 value={currencies.selectedCurrencyTo ?? {}}
-                width={140}
+                width={160}
                 propertyValue="Code"
                 onItemPress={(selectedItem) => {
                     dispatch(setSelectedTo(selectedItem as Currency));
@@ -83,7 +83,7 @@ export default function ExchangeBar() {
 }
 const styles = StyleSheet.create({
     rootContainer: {
-        backgroundColor: Colors.exchangeBarDefault,
+        backgroundColor: Theme.exchangeBar,
         borderRadius: 20,
         width: "100%",
         flexDirection: "row",

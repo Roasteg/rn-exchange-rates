@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image } from "react-native";
+import { Theme } from "../utils/Colors";
 
 type Props = {
     item: Currency;
@@ -14,7 +15,7 @@ export default function DropdownCurrencyItem(props: Props) {
                     />
                 )}
             </View>
-            <Text>{props.item.Code}</Text>
+            <Text style={styles.itemText}>{props.item.Code}</Text>
         </View>
     );
 }
@@ -34,4 +35,7 @@ const styles = StyleSheet.create({
         resizeMode: "cover",
         borderRadius: 100,
     },
+    itemText: {
+        color: Theme.text
+    }
 });
