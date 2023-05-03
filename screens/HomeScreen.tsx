@@ -5,7 +5,7 @@ import { Theme } from "../utils/Colors";
 import CurrencyInput from "../components/CurrencyInput";
 
 export default function HomeScreen() {
-    return (
+    return ( 
         <View style={styles.rootContainer}>
             <View style={styles.currencySelectionContainer}>
                 <ExchangeBar />

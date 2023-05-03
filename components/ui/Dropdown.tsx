@@ -7,6 +7,7 @@ import {
     Modal,
     Text,
     Dimensions,
+    ViewStyle,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useComponentDimensions } from "../../utils/Hooks";
@@ -18,6 +19,7 @@ type Props = {
     width?: number;
     propertyValue?: string;
     itemPresentation?: any;
+    style?: ViewStyle;
     onItemPress: (selectedItem: string | number | object) => void;
 };
 
@@ -37,7 +39,7 @@ export default function Dropdown(props: Props) {
     const calculateOverflow = () => {
         const clientWidth = Dimensions.get("window").width;
         if(dimensions) {
-            setDropdownOverflow(clientWidth - dimensions.x - (props.width ?? clientWidth));
+            setDropdownOverflow((clientWidth - dimensions.x - (props.width ?? clientWidth)));
         }
     }
 
@@ -68,6 +70,7 @@ export default function Dropdown(props: Props) {
                     onLayout={calculateOverflow}
                         style={[
                             styles.dropdown,
+                            props.style,
                             {
                                 width: props.width ?? "100%",
                                 top: dimensions ? dimensions.y + 100 : 0,
@@ -80,6 +83,7 @@ export default function Dropdown(props: Props) {
                                 data={props.list}
                                 keyExtractor={(item, index) => index.toString()}
                                 showsVerticalScrollIndicator={false}
+                                initialNumToRender={5}
                                 renderItem={({ item }) => {
                                     return (
                                         <Pressable

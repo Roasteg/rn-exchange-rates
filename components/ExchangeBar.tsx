@@ -59,7 +59,10 @@ export default function ExchangeBar() {
                 onItemPress={(selectedItem) => {
                     dispatch(setSelectedFrom(selectedItem as Currency));
                 }}
-                width={160}
+                width={140}
+                style={{
+                    marginLeft: 15,
+                }}
                 itemPresentation={DropdownCurrencyItem}
             />
             <Pressable
@@ -71,8 +74,11 @@ export default function ExchangeBar() {
             <Dropdown
                 list={currencies.list}
                 value={currencies.selectedCurrencyTo ?? {}}
-                width={160}
+                width={140}
                 propertyValue="Code"
+                style={{
+                    marginLeft: 5
+                }}
                 onItemPress={(selectedItem) => {
                     dispatch(setSelectedTo(selectedItem as Currency));
                 }}

@@ -42,7 +42,7 @@ export default function CurrencyInput() {
                 exchange.rates.rates[currency.selectedCurrencyTo.Code]
             )
         );
-    }, [exchange.rates.rates]);
+    }, [exchange.rates.rates, currency.selectedCurrencyTo]);
 
     useEffect(() => {
         dispatch(calculateRate());
