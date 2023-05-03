@@ -61,6 +61,13 @@ const currenciesSlice = createSlice({
         setSelectedTo(state, action: PayloadAction<Currency>) {
             state.selectedCurrencyTo = action.payload;
         },
+        showOnlyAvailableCurrencies(state, action: PayloadAction<object>){
+            state.list = state.list.filter((currency)=> {
+                if(currency.Code in action.payload){
+                    return currency;
+                }
+            })
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getCurrencyList.fulfilled, (state, { payload }) => {
@@ -72,4 +79,5 @@ const currenciesSlice = createSlice({
 export default currenciesSlice.reducer;
 export const setSelectedFrom = currenciesSlice.actions.setSelectedFrom;
 export const setSelectedTo = currenciesSlice.actions.setSelectedTo;
+export const showOnlyAvailableCurrencies = currenciesSlice.actions.showOnlyAvailableCurrencies;
 export { getCurrencyList };

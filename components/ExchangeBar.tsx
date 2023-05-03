@@ -10,12 +10,13 @@ import {
     getCurrencyList,
     setSelectedFrom,
     setSelectedTo,
+    showOnlyAvailableCurrencies,
 } from "../store/slices/currencies";
-import { calculateRate } from "../store/slices/exchange";
 export default function ExchangeBar() {
     const dispatch: AppDispatch = useDispatch();
 
     const currencies = useSelector((state: RootState) => state.currencies);
+    const exchange = useSelector((state: RootState) => state.exchange);
 
     const swapCurrencies = () => {
         const tempCurrencyFrom = currencies.selectedCurrencyFrom;
@@ -26,6 +27,10 @@ export default function ExchangeBar() {
     useEffect(() => {
         dispatch(getCurrencyList());
     }, []);
+
+    useEffect(() => {
+        dispatch(showOnlyAvailableCurrencies(exchange.rates.rates));
+    }, [exchange.rates]);
 
     return (
         <View
