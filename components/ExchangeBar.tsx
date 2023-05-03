@@ -21,7 +21,6 @@ export default function ExchangeBar() {
         const tempCurrencyFrom = currencies.selectedCurrencyFrom;
         dispatch(setSelectedFrom(currencies.selectedCurrencyTo));
         dispatch(setSelectedTo(tempCurrencyFrom));
-        dispatch(calculateRate());
     };
 
     useEffect(() => {

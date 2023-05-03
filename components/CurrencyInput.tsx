@@ -44,6 +44,10 @@ export default function CurrencyInput() {
         );
     }, [exchange.rates.rates]);
 
+    useEffect(() => {
+        dispatch(calculateRate());
+    }, [exchange.currentRate]);
+
     return (
         <View style={styles.rootContainer}>
             <View style={styles.inputAndSymbolContainer}>
