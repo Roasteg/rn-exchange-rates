@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import Keypad from "../components/Keypad";
 import ExchangeBar from "../components/ExchangeBar";
-import { Theme } from "../utils/Colors";
+import { Theme } from "../utils/Theme";
 import CurrencyInput from "../components/CurrencyInput";
 
 export default function HomeScreen() {

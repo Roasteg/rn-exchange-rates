@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
 import { useSwipe } from "../../utils/Hooks";
-import { Theme } from "../../utils/Colors";
+import { Theme } from "../../utils/Theme";
 
 type Props = {
     value: string;

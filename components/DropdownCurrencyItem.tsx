@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import { Theme } from "../utils/Colors";
+import { Theme } from "../utils/Theme";
 
 type Props = {
     item: Currency;

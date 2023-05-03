@@ -1,7 +1,3 @@
-import { Appearance } from "react-native";
-
-const theme = Appearance.getColorScheme();
-
 export const Colors = {
     backgroundDefault: "#fefefe",
     backgroundDark: "#131215",
@@ -14,18 +10,3 @@ export const Colors = {
     textDefault: "#09090b",
     textDark: "#ffffff",
 };
-
-export const Theme =
-    theme === "light"
-        ? {
-              text: Colors.textDefault,
-              background: Colors.backgroundDefault,
-              exchangeBar: Colors.exchangeBarDefault,
-              actionButton: Colors.actionButtonDefault,
-          }
-        : {
-              text: Colors.textDark,
-              background: Colors.backgroundDark,
-              exchangeBar: Colors.exchangeBarDark,
-              actionButton: Colors.actionButtonDark,
-          };

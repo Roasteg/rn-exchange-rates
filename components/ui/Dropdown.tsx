@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useComponentDimensions } from "../../utils/Hooks";
-import { Theme } from "../../utils/Colors";
+import { Theme } from "../../utils/Theme";
 
 type Props = {
     list: any[];

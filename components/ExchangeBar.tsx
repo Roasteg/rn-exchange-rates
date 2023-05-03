@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { Theme } from "../utils/Colors";
+import { Theme } from "../utils/Theme";
 import { Ionicons } from "@expo/vector-icons";
 import Dropdown from "./ui/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
