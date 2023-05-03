@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ActionButton from "./ui/ActionButton";
 import React from "react";
 import { AppDispatch } from "../store/store";

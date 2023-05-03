@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Keypad from "../components/Keypad";
 import ExchangeBar from "../components/ExchangeBar";
 import { Colors } from "../utils/Colors";

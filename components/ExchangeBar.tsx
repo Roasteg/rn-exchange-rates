@@ -1,4 +1,4 @@
-import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Colors } from "../utils/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import Dropdown from "./ui/Dropdown";
@@ -11,7 +11,7 @@ import {
     setSelectedFrom,
     setSelectedTo,
 } from "../store/slices/currencies";
-import { calculateRate, setCurrentRate } from "../store/slices/exchange";
+import { calculateRate } from "../store/slices/exchange";
 export default function ExchangeBar() {
     const dispatch: AppDispatch = useDispatch();
 
